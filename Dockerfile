@@ -18,3 +18,4 @@ CMD /start.sh
 
 EXPOSE 80
 VOLUME /var/lib/ldap-account-manager
+VOLUME /etc/ldap-account-manager
