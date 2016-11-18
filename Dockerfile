@@ -9,6 +9,9 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y ldap-account-manager
 RUN sed -i 's,DocumentRoot .*,DocumentRoot /usr/share/ldap-account-manager,' /etc/apache2/sites-available/000-default.conf
+RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log
+RUN ln -sf /proc/self/fd/2 /var/log/apache2/error.log
+
 
 ADD start.sh /start.sh
 CMD /start.sh
