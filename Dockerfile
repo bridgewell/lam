@@ -3,6 +3,10 @@
 # currently xenial provides ldap-account-manager 5.2
 # last check: 2018-01-11
 FROM ubuntu:trusty
+ADD start.sh /start.sh
+CMD /start.sh
+ADD health.sh /health.sh
+HEALTHCHECK --interval=60s --timeout=30s --start-period=600s --retries=3 CMD /health.sh
 #FROM mwaeckerlin/ubuntu-base
 MAINTAINER mwaeckerlin
 
@@ -18,9 +22,6 @@ RUN chown www-data.www-data $DATA $CONFIG
 RUN sed -i 's,DocumentRoot .*,DocumentRoot /usr/share/ldap-account-manager,' /etc/apache2/sites-available/000-default.conf
 RUN ln -sf /proc/1/fd/1 /var/log/apache2/access.log
 RUN ln -sf /proc/1/fd/2 /var/log/apache2/error.log
-
-ADD start.sh /start.sh
-CMD /start.sh
 
 EXPOSE 80
 VOLUME $CONFIG
