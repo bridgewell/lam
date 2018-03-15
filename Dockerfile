@@ -13,7 +13,7 @@ MAINTAINER mwaeckerlin
 ENV CONFIG=/etc/ldap-account-manager
 ENV DATA=/var/lib/ldap-account-manager
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y ldap-account-manager php5-imap
+RUN apt-get update && apt-get upgrade -y && apt-get install -y ldap-account-manager php5-imap wget
 RUN php5enmod imap
 RUN mv $CONFIG $CONFIG.original
 RUN mv $DATA $DATA.original
