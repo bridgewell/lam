@@ -13,15 +13,17 @@ MAINTAINER mwaeckerlin
 ENV CONFIG=/etc/ldap-account-manager
 ENV DATA=/var/lib/ldap-account-manager
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y ldap-account-manager php5-imap wget
-RUN php5enmod imap
-RUN mv $CONFIG $CONFIG.original
-RUN mv $DATA $DATA.original
-RUN mkdir $DATA $CONFIG
-RUN chown www-data.www-data $DATA $CONFIG
-RUN sed -i 's,DocumentRoot .*,DocumentRoot /usr/share/ldap-account-manager,' /etc/apache2/sites-available/000-default.conf
-RUN ln -sf /proc/1/fd/1 /var/log/apache2/access.log
-RUN ln -sf /proc/1/fd/2 /var/log/apache2/error.log
+RUN apt-get update \
+ && apt-get upgrade -y \
+ && apt-get install --no-install-recommends --no-install-suggests -y ldap-account-manager php5-imap wget rsync \
+ && php5enmod imap \
+ && mv $CONFIG $CONFIG.original \
+ && mv $DATA $DATA.original \
+ && mkdir $DATA $CONFIG \
+ && chown www-data.www-data $DATA $CONFIG \
+ && sed -i 's,DocumentRoot .*,DocumentRoot /usr/share/ldap-account-manager,' /etc/apache2/sites-available/000-default.conf \
+ && ln -sf /proc/1/fd/1 /var/log/apache2/access.log \
+ && ln -sf /proc/1/fd/2 /var/log/apache2/error.log
 
 EXPOSE 80
 VOLUME $CONFIG
